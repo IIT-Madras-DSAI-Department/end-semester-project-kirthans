@@ -206,3 +206,51 @@ class XGBoostClassifier:
             pred += self.learning_rate * tree.predict(X[:, cols])
         prob = self.sigmoid(pred)
         return prob
+
+class SoftmaxRegression:
+    def __init__(self, lr=0.1, num_iters=1000, reg=0.0):
+        self.lr = lr
+        self.num_iters = num_iters
+        self.reg = reg
+        self.W = None
+        self.b = None
+
+    def _softmax(self, z):
+        z = z - np.max(z, axis=1, keepdims=True)
+        exp_z = np.exp(z)
+        return exp_z / np.sum(exp_z, axis=1, keepdims=True)
+
+    def fit(self, X, y):
+        n_samples, n_features = X.shape
+        num_classes = len(np.unique(y))
+
+        self.W = np.zeros((n_features, num_classes))
+        self.b = np.zeros((1, num_classes))
+
+        y_onehot = np.eye(num_classes)[y]
+
+        for i in range(self.num_iters):
+
+            scores = np.dot(X, self.W) + self.b
+            probs = self._softmax(scores)
+
+            grad_scores = (probs - y_onehot) / n_samples
+
+            dW = np.dot(X.T, grad_scores) + self.reg * self.W
+            db = np.sum(grad_scores, axis=0, keepdims=True)
+
+            self.W -= self.lr * dW
+            self.b -= self.lr * db
+
+            if i % 200 == 0:
+                loss = -np.mean(np.sum(y_onehot * np.log(probs + 1e-12), axis=1))
+
+    def predict(self, X):
+        X = np.array(X)
+        probs = self._predict_proba(X)
+        return np.argmax(probs, axis=1)
+    
+    def _predict_proba(self, X):
+        scores = np.dot(X, self.W) + self.b
+        probs = self._softmax(scores)
+        return probs
