@@ -6,7 +6,7 @@
 This repository is the **starter** for your End Semester Project submission in GitHub Classroom. You can implement your solution and push your work in this repository. Please free to edit this README.md file as per your requirements.
 
 > **Scope (as per assignment brief):**
-> Give an introduction to your repository here: Eg. This repository contains a complete implementation for ...
+> This repository contains a complete implementation for MNIST digit classification using an ensemble method of KNNs, Softmax, and a corrected Softmax model.
 
 ---
 
@@ -18,13 +18,15 @@ This repository is the **starter** for your End Semester Project submission in G
 
 ## 📁 Repository Structure
 
-* Describe your repository structure here. Explain about overall code organization.
+1. `algorithms.py` file containing the classes used (KNN, XGBoostClassifier, and PCA)
+2. `main.py` contains the final pipeline that incorporates all the classes
+3. `Report.pdf` - final report
 
 ---
 
 ## 📦 Installation & Dependencies
 
-* Mention all the related instructions for installation of related packages for running your code here.
+Run `pip install numpy pandas`
 
 ---
 
@@ -34,17 +36,13 @@ All experiments should be runnable from the command line **and** reproducible in
 
 ### A. Command-line (recommended for grading)
 
-* Mention the instructions to run you .py files.
+It can be run from the command line by running `python main.py --train-path <train_file.csv> --test-path <test_file.csv>`
   
----
 
-## You can further add your own sections/titles along with corresponding contents here:
-
----
 
 ## 🧾 Authors
 
-**<Name, Roll No.>**, IIT Madras (2025–26)
+**Kirthan S, DA24B009**, IIT Madras (2025–26)
 
 
 ## Best Practices:
