@@ -125,7 +125,7 @@ def main():
     args = parser.parse_args()
 
     train_df = pd.read_csv(args.train_path)
-    val_df = pd.read_csv(args.val_path)
+    val_df = pd.read_csv(args.test_path)
 
     X_train, y_train = create_arrays(train_df)
     X_val, y_val = create_arrays(val_df)
