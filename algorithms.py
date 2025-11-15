@@ -254,3 +254,30 @@ class SoftmaxRegression:
         scores = np.dot(X, self.W) + self.b
         probs = self._softmax(scores)
         return probs
+    
+class KNN:
+    def __init__(self, k=3):
+        self.k = k
+        self.X_train = None
+        self.y_train = None
+
+    def fit(self, X, y):
+        self.X_train = X
+        self.y_train = y
+
+    def _euclidean_distances(self, X):
+        X_sq = np.sum(X**2, axis=1, keepdims=True)
+        T_sq = np.sum(self.X_train**2, axis=1)
+        cross = X @ self.X_train.T
+        dists = np.sqrt(X_sq + T_sq - 2 * cross)
+        return dists
+
+    def predict(self, X):
+        dists = self._euclidean_distances(X)
+
+        knn_idx = np.argpartition(dists, self.k, axis=1)[:, :self.k]
+
+        knn_labels = self.y_train[knn_idx]
+
+        preds = np.array([np.bincount(row).argmax() for row in knn_labels])
+        return preds
